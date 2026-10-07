@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Révision 5ème D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        header {
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Formulaire d'upload */
+        .upload-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .upload-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        button.btn-add {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button.btn-add:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Feed / Affichage des fiches */
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-maths { background: #3b82f622; color: #60a5fa; }
+        .badge-francais { background: #ec489922; color: #f472b6; }
+        .badge-histoire { background: #f59e0b22; color: #fbbf24; }
+        .badge-svt { background: #10b98122; color: #34d399; }
+        .badge-autre { background: #8b5cf622; color: #a78bfa; }
+
+        .item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .item-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .preview-container {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0f172a;
+            max-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+        }
+
+        .preview-container iframe {
+            width: 100%;
+            height: 350px;
+            border: none;
+        }
+
+        .text-content {
+            padding: 12px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-delete:hover {
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📚 Révision 5ème D</h1>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Espace Officiel</span>
+    </header>
+
+    <div class="container">
+        <!-- Panneau d'upload -->
+        <div class="upload-card">
+            <h2>➕ Ajouter un document</h2>
+            
+            <div class="form-group">
+                <label for="title">Titre du document</label>
+                <input type="text" id="title" placeholder="Ex: Évaluation de Maths - Chapitre 2">
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Matière</label>
+                <select id="subject">
+                    <option value="maths">Mathématiques</option>
+                    <option value="francais">Français</option>
+                    <option value="histoire">Histoire-Géo</option>
+                    <option value="svt">SVT / Physique</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Format du contenu</label>
+                <select id="type" onchange="toggleInputType()">
+                    <option value="file">Fichier (PDF ou Image)</option>
+                    <option value="text">Texte / Notes</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="fileGroup">
+                <label for="fileInput">Sélectionner un fichier (PDF, JPG, PNG)</label>
+                <input type="file" id="fileInput" accept="application/pdf, image/*">
+            </div>
+
+            <div class="form-group" id="textGroup" style="display: none;">
+                <label for="textContent">Contenu de la fiche</label>
+                <textarea id="textContent" rows="5" placeholder="Écris tes cours, fiches ou devoirs ici..."></textarea>
+            </div>
+
+            <button class="btn-add" onclick="addItem()">Publier sur l'interface</button>
+        </div>
+
+        <!-- Flux des fiches -->
+        <div class="feed">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterItems('all')">Tous</button>
+                <button class="filter-btn" onclick="filterItems('maths')">Maths</button>
+                <button class="filter-btn" onclick="filterItems('francais')">Français</button>
+                <button class="filter-btn" onclick="filterItems('histoire')">Histoire</button>
+                <button class="filter-btn" onclick="filterItems('svt')">SVT</button>
+            </div>
+
+            <div id="itemsContainer">
+                <!-- Les cartes apparaîtront ici -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let items = JSON.parse(localStorage.getItem('revision_items') || '[]');
+
+        function toggleInputType() {
+            const type = document.getElementById('type').value;
+            document.getElementById('fileGroup').style.display = type === 'file' ? 'block' : 'none';
+            document.getElementById('textGroup').style.display = type === 'text' ? 'block' : 'none';
+        }
+
+        function addItem() {
+            const title = document.getElementById('title').value;
+            const subject = document.getElementById('subject').value;
+            const type = document.getElementById('type').value;
+
+            if (!title) {
+                alert('Veuillez ajouter un titre.');
+                return;
+            }
+
+            if (type === 'text') {
+                const text = document.getElementById('textContent').value;
+                if (!text) return alert('Veuillez entrer du texte.');
+                saveItem({ id: Date.now(), title, subject, format: 'text', content: text, date: new Date().toLocaleDateString('fr-FR') });
+            } else {
+                const fileInput = document.getElementById('fileInput');
+                const file = fileInput.files[0];
+                if (!file) return alert('Veuillez sélectionner un fichier.');
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const isPdf = file.type === 'application/pdf';
+                    saveItem({ 
+                        id: Date.now(), 
+                        title, 
+                        subject, 
+                        format: isPdf ? 'pdf' : 'image', 
+                        content: e.target.result, 
+                        date: new Date().toLocaleDateString('fr-FR') 
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveItem(item) {
+            items.unshift(item);
+            localStorage.setItem('revision_items', JSON.stringify(items));
+            resetForm();
+            renderItems();
+        }
+
+        function deleteItem(id) {
+            items = items.filter(i => i.id !== id);
+            localStorage.setItem('revision_items', JSON.stringify(items));
+            renderItems();
+        }
+
+        function resetForm() {
+            document.getElementById('title').value = '';
+            document.getElementById('textContent').value = '';
+            document.getElementById('fileInput').value = '';
+        }
+
+        function renderItems(filter = 'all') {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' ? items : items.filter(i => i.subject === filter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted)">Aucun document publié pour le moment.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+
+                let previewHtml = '';
+                if (item.format === 'image') {
+                    previewHtml = `<div class="preview-container"><img src="${item.content}" alt="Image"></div>`;
+                } else if (item.format === 'pdf') {
+                    previewHtml = `<div class="preview-container"><iframe src="${item.content}"></iframe></div>`;
+                } else {
+                    previewHtml = `<div class="preview-container"><div class="text-content">${item.content}</div></div>`;
+                }
+
+                card.innerHTML = `
+                    <button class="btn-delete" onclick="deleteItem(${item.id})">🗑️</button>
+                    <div class="item-header">
+                        <span class="badge badge-${item.subject}">${item.subject}</span>
