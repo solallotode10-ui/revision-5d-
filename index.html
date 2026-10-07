@@ -272,9 +272,7 @@
     </div>
 
     <script>
-        const REPO_OWNER = 'solallotode10-ui';
-        const REPO_NAME = 'revision-5d';
-        const TARGET_BRANCH = 'main';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwNT6p7dOoC4_jvNiFM7QJA5UZKnw1WVX4SGq1msewJ0qpLjAxKi6JCo1kaEDoe7Q/exec';
 
         let currentSpace = 'revision';
         let currentSubject = 'all';
@@ -285,18 +283,19 @@
             grid.innerHTML = '<div class="empty-msg">Chargement des documents...</div>';
 
             try {
-                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/${space}?ref=${TARGET_BRANCH}`);
-                if (!response.ok) {
-                    grid.innerHTML = `<div class="empty-msg">Aucun fichier trouvé dans <b>content/${space}/</b>.</div>`;
+                const response = await fetch(`${API_URL}?space=${space}`);
+                const data = await response.json();
+
+                if (data.error || !Array.isArray(data) || data.length === 0) {
+                    grid.innerHTML = `<div class="empty-msg">Aucun fichier trouvé dans cet espace.</div>`;
                     allFiles = [];
                     return;
                 }
 
-                const data = await response.json();
-                allFiles = data.filter(item => item.type === 'file' && !item.name.startsWith('.'));
+                allFiles = data;
                 renderFiles();
             } catch (err) {
-                grid.innerHTML = `<div class="empty-msg">Erreur de chargement. Vérifie le dossier <b>content/${space}</b> sur GitHub.</div>`;
+                grid.innerHTML = `<div class="empty-msg">Erreur de chargement des documents.</div>`;
             }
         }
 
@@ -345,12 +344,11 @@
             grid.innerHTML = '';
             filtered.forEach(file => {
                 const subject = detectSubject(file.name);
-                const isPdf = file.name.endsWith('.pdf');
+                const isPdf = file.name.toLowerCase().endsWith('.pdf');
                 const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
-                const isTxt = file.name.endsWith('.txt');
 
                 let previewHtml = '';
-                if (isPdf || isTxt) {
+                if (isPdf) {
                     previewHtml = `<div class="preview-area"><iframe src="${file.download_url}"></iframe></div>`;
                 } else if (isImg) {
                     previewHtml = `<div class="preview-area"><img src="${file.download_url}" alt="${file.name}"></div>`;
