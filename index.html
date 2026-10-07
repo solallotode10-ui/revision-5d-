@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Révision & Cours - 5ème D</title>
+    <title>Espace Révision & Cours — 5ème D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -55,7 +55,6 @@
             margin: 0 auto;
         }
 
-        /* Navigation par Espaces */
         .nav-tabs {
             display: flex;
             justify-content: center;
@@ -81,7 +80,6 @@
             border-color: var(--accent);
         }
 
-        /* Barre de recherche et filtre */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -132,7 +130,6 @@
             border-color: #44444c;
         }
 
-        /* Grille des cartes */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -212,7 +209,6 @@
 
         .btn-download:hover { color: var(--text-main); }
 
-        /* Visionneuse */
         .preview-area {
             margin-top: 10px;
             border-radius: 6px;
@@ -248,7 +244,6 @@
     </header>
 
     <div class="main-container">
-        <!-- Sélection de l'Espace -->
         <div class="nav-tabs">
             <button class="tab-btn active" id="tab-revision" onclick="switchSpace('revision')">
                 Espace Révision (Fiches & Évaluations)
@@ -258,7 +253,6 @@
             </button>
         </div>
 
-        <!-- Barre de recherche et de filtres -->
         <div class="toolbar">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Rechercher une fiche ou une leçon..." oninput="filterFiles()">
@@ -272,16 +266,15 @@
             </div>
         </div>
 
-        <!-- Zone d'affichage des cartes -->
         <div class="cards-grid" id="cardsGrid">
             <div class="empty-msg">Chargement des fichiers...</div>
         </div>
     </div>
 
     <script>
-        const REPO_OWNER = 'solallotode10-ui'; // Ton pseudo exact GitHub
-const REPO_NAME = 'revision-5d';
-        
+        const REPO_OWNER = 'solallotode10-ui';
+        const REPO_NAME = 'revision-5d';
+        const TARGET_BRANCH = 'main';
 
         let currentSpace = 'revision';
         let currentSubject = 'all';
@@ -292,7 +285,7 @@ const REPO_NAME = 'revision-5d';
             grid.innerHTML = '<div class="empty-msg">Chargement des documents...</div>';
 
             try {
-                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/${space}`);
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/content/${space}?ref=${TARGET_BRANCH}`);
                 if (!response.ok) {
                     grid.innerHTML = `<div class="empty-msg">Aucun fichier trouvé dans <b>content/${space}/</b>.</div>`;
                     allFiles = [];
@@ -354,9 +347,10 @@ const REPO_NAME = 'revision-5d';
                 const subject = detectSubject(file.name);
                 const isPdf = file.name.endsWith('.pdf');
                 const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
+                const isTxt = file.name.endsWith('.txt');
 
                 let previewHtml = '';
-                if (isPdf) {
+                if (isPdf || isTxt) {
                     previewHtml = `<div class="preview-area"><iframe src="${file.download_url}"></iframe></div>`;
                 } else if (isImg) {
                     previewHtml = `<div class="preview-area"><img src="${file.download_url}" alt="${file.name}"></div>`;
