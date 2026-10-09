@@ -6,7 +6,6 @@
     <title>Plateforme de Révision — 5ème D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- VARIABLES & MODE SOMBRE / CLAIR AUTOMATIQUE --- */
         :root {
             --bg-main: #f8fafc;
             --bg-card: #ffffff;
@@ -39,7 +38,6 @@
             }
         }
 
-        /* --- STAST DE BASE --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -57,7 +55,6 @@
             padding: 20px;
         }
 
-        /* --- NAVIGATION --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -78,26 +75,6 @@
         .logo-area p {
             font-size: 0.8rem;
             color: var(--text-muted);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--accent);
-            background: var(--badge-bg);
         }
 
         .status-badge {
@@ -121,240 +98,14 @@
             box-shadow: 0 0 8px var(--success);
         }
 
-        /* --- LAYOUT PRINCIPAL --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        .card h2 {
-            font-size: 1.1rem;
-            margin-bottom: 16px;
+        .filters-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* --- RECHERCHE ET FILTRES --- */
-        .search-box {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-main);
-            color: var(--text-main);
-            font-size: 0.9rem;
+            gap: 8px;
             margin-bottom: 16px;
+            flex-wrap: wrap;
         }
 
-        .search-box:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        /* --- GRILLE DES MATIÈRES --- */
-        .subjects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        .subject-card {
+        .filter-btn {
             background: var(--bg-main);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .subject-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-        }
-
-        .subject-card h3 {
-            font-size: 1rem;
-            margin-bottom: 6px;
-        }
-
-        .subject-card p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        /* --- BOUTONS --- */
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .btn-warning {
-            background-color: var(--warning);
-        }
-        .btn-warning:hover {
-            background-color: #ea580c;
-        }
-
-        /* --- WIDGET CALENDRIER / RATTRAPAGES --- */
-        .event-list {
-            list-style: none;
-        }
-
-        .event-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .event-item:last-child {
-            border-bottom: none;
-        }
-
-        .event-date {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--warning);
-            background: rgba(249, 115, 22, 0.1);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .event-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: auto;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Barre de navigation -->
-    <header>
-        <div class="logo-area">
-            <h1>Révisions — 5ème D</h1>
-            <p>Espace de partage des leçons et fiches</p>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="nav-link active">Accueil</a>
-            <a href="#" class="nav-link">Cours</a>
-            <a href="#" class="nav-link">Quiz</a>
-            <div class="status-badge">
-                <span class="status-dot"></span> Serveur Actif
-            </div>
-        </div>
-    </header>
-
-    <!-- Corps principal -->
-    <div class="dashboard-grid">
-        
-        <!-- Colonne de gauche : Matières et fiches -->
-        <main>
-            <div class="card">
-                <h2>Explorer les matières</h2>
-                <input type="text" class="search-box" placeholder="Rechercher une fiche, un chapitre...">
-                
-                <div class="subjects-grid">
-                    <div class="subject-card">
-                        <h3>Mathématiques</h3>
-                        <p>Fombres relatifs & Géométrie</p>
-                        <a href="#" class="btn">Voir les fiches</a>
-                    </div>
-                    <div class="subject-card">
-                        <h3>Français</h3>
-                        <p>Conjugaison & Grammaire</p>
-                        <a href="#" class="btn">Voir les fiches</a>
-                    </div>
-                    <div class="subject-card">
-                        <h3>Histoire-Géo</h3>
-                        <p>Le Moyen Âge & Cartes</p>
-                        <a href="#" class="btn">Voir les fiches</a>
-                    </div>
-                    <div class="subject-card">
-                        <h3>Sciences (SVT/PC)</h3>
-                        <p>Volcans & Énergie</p>
-                        <a href="#" class="btn">Voir les fiches</a>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Colonne de droite : Rattrapages & Actions rapides -->
-        aside>
-            <div class="card">
-                <h2>Prochains Rattrapages</h2>
-                <ul class="event-list">
-                    <li class="event-item">
-                        <div>
-                            <div class="event-title">Contrôle de Maths (Rattrapage)</div>
-                        </div>
-                        <span class="event-date">Lundi, 12h30</span>
-                    </li>
-                    <li class="event-item">
-                        <div>
-                            <div class="event-title">TP Physique-Chimie</div>
-                        </div>
-                        <span class="event-date">Jeudi, 16h00</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h2>Outils rapides</h2>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="btn">Lancer un Quiz interactif</button>
-                    <button class="btn btn-warning">Signaler un document manquant</button>
-                </div>
-            </div>
-        </aside>
-
-    </div>
-
-    <footer>
-        Plateforme sécurisée — Hébergée en local &bull; 5ème D
-    </footer>
-
-</body>
-    </html>
-    
+            border: 1px solid
+            
