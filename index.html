@@ -3,377 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Révision & Cours — 5ème D</title>
+    <title>Plateforme de Révision — 5ème D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- VARIABLES & MODE SOMBRE / CLAIR AUTOMATIQUE --- */
         :root {
-            --bg-color: #121214;
-            --card-bg: #1a1a1e;
-            --card-border: #2e2e34;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --text-main: #f3f3f5;
-            --text-muted: #8e8e93;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #4f46e5;
+            --accent-hover: #4338ca;
+            --border: #e2e8f0;
+            --badge-bg: #eff6ff;
+            --badge-text: #2563eb;
+            --success: #10b981;
+            --warning: #f97316;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-main: #121212;
+                --bg-card: #2a2a35;
+                --text-main: #f3f4f6;
+                --text-muted: #9ca3af;
+                --accent: #3b82f6;
+                --accent-hover: #2563eb;
+                --border: #3f3f46;
+                --badge-bg: #1e3a8a;
+                --badge-text: #93c5fd;
+                --success: #10b981;
+                --warning: #f97316;
+                --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* --- STAST DE BASE --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             color: var(--text-main);
-            padding: 20px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
 
+        /* --- NAVIGATION --- */
         header {
-            max-width: 1100px;
-            margin: 0 auto 25px auto;
-            text-align: center;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .nav-tabs {
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: #ffffff;
-            border-color: var(--accent);
-        }
-
-        .toolbar {
-            display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--card-border);
+            background: var(--bg-card);
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
         }
 
-        .search-box {
-            flex: 1;
-            min-width: 220px;
+        .logo-area h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 9px 12px;
-            background: #121214;
-            border: 1px solid var(--card-border);
-            border-radius: 6px;
-            color: var(--text-main);
-            outline: none;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-        }
-
-        .filter-btn {
-            padding: 6px 12px;
-            background: #121214;
-            border: 1px solid var(--card-border);
+        .logo-area p {
+            font-size: 0.8rem;
             color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
         }
 
-        .filter-btn.active {
-            background: #2e2e34;
-            color: #ffffff;
-            border-color: #44444c;
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+            background: var(--badge-bg);
         }
 
-        .cards-grid {
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 6px 10px;
+            border-radius: 20px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
         }
 
-        .card-header {
+        /* --- RECHERCHE ET FILTRES --- */
+        .search-box {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* --- GRILLE DES MATIÈRES --- */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .subject-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .subject-card h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .subject-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        /* --- BOUTONS --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+        .btn-warning:hover {
+            background-color: #ea580c;
+        }
+
+        /* --- WIDGET CALENDRIER / RATTRAPAGES --- */
+        .event-list {
+            list-style: none;
+        }
+
+        .event-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .badge {
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-date {
             font-size: 0.75rem;
-            padding: 3px 8px;
+            font-weight: 600;
+            color: var(--warning);
+            background: rgba(249, 115, 22, 0.1);
+            padding: 4px 8px;
             border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: #242429;
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
         }
 
-        .badge-maths { color: #60a5fa; border-color: #1d4ed8; }
-        .badge-francais { color: #f472b6; border-color: #be185d; }
-        .badge-histoire { color: #fbbf24; border-color: #b45309; }
-        .badge-svt { color: #34d399; border-color: #047857; }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            word-break: break-word;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .btn-view, .btn-download {
-            flex: 1;
-            padding: 8px;
-            text-align: center;
-            border-radius: 6px;
+        .event-title {
             font-size: 0.85rem;
             font-weight: 500;
-            text-decoration: none;
-            cursor: pointer;
         }
 
-        .btn-view {
-            background: var(--accent);
-            color: #ffffff;
-            border: none;
-        }
-
-        .btn-view:hover { background: var(--accent-hover); }
-
-        .btn-download {
-            background: #121214;
-            color: var(--text-muted);
-            border: 1px solid var(--card-border);
-        }
-
-        .btn-download:hover { color: var(--text-main); }
-
-        .preview-area {
-            margin-top: 10px;
-            border-radius: 6px;
-            overflow: hidden;
-            background: #121214;
-            border: 1px solid var(--card-border);
-            max-height: 250px;
-        }
-
-        .preview-area iframe, .preview-area img {
-            width: 100%;
-            height: 250px;
-            border: none;
-            object-fit: contain;
-        }
-
-        .empty-msg {
-            grid-column: 1 / -1;
+        /* --- FOOTER --- */
+        footer {
             text-align: center;
-            padding: 40px;
+            padding: 20px;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            background: var(--card-bg);
-            border-radius: 10px;
-            border: 1px solid var(--card-border);
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
+    <!-- Barre de navigation -->
     <header>
-        <h1>Révisions & Cours — 5ème D</h1>
-        <p class="subtitle">Espace de partage des leçons, devoirs et fiches de révision</p>
+        <div class="logo-area">
+            <h1>Révisions — 5ème D</h1>
+            <p>Espace de partage des leçons et fiches</p>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Accueil</a>
+            <a href="#" class="nav-link">Cours</a>
+            <a href="#" class="nav-link">Quiz</a>
+            <div class="status-badge">
+                <span class="status-dot"></span> Serveur Actif
+            </div>
+        </div>
     </header>
 
-    <div class="main-container">
-        <div class="nav-tabs">
-            <button class="tab-btn active" id="tab-revision" onclick="switchSpace('revision')">
-                Espace Révision (Fiches & Évaluations)
-            </button>
-            <button class="tab-btn" id="tab-rattrapage" onclick="switchSpace('rattrapage')">
-                Espace Leçons & Rattrapage
-            </button>
-        </div>
-
-        <div class="toolbar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Rechercher une fiche ou une leçon..." oninput="filterFiles()">
+    <!-- Corps principal -->
+    <div class="dashboard-grid">
+        
+        <!-- Colonne de gauche : Matières et fiches -->
+        <main>
+            <div class="card">
+                <h2>Explorer les matières</h2>
+                <input type="text" class="search-box" placeholder="Rechercher une fiche, un chapitre...">
+                
+                <div class="subjects-grid">
+                    <div class="subject-card">
+                        <h3>Mathématiques</h3>
+                        <p>Fombres relatifs & Géométrie</p>
+                        <a href="#" class="btn">Voir les fiches</a>
+                    </div>
+                    <div class="subject-card">
+                        <h3>Français</h3>
+                        <p>Conjugaison & Grammaire</p>
+                        <a href="#" class="btn">Voir les fiches</a>
+                    </div>
+                    <div class="subject-card">
+                        <h3>Histoire-Géo</h3>
+                        <p>Le Moyen Âge & Cartes</p>
+                        <a href="#" class="btn">Voir les fiches</a>
+                    </div>
+                    <div class="subject-card">
+                        <h3>Sciences (SVT/PC)</h3>
+                        <p>Volcans & Énergie</p>
+                        <a href="#" class="btn">Voir les fiches</a>
+                    </div>
+                </div>
             </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="setSubjectFilter('all', this)">Tous</button>
-                <button class="filter-btn" onclick="setSubjectFilter('maths', this)">Maths</button>
-                <button class="filter-btn" onclick="setSubjectFilter('francais', this)">Français</button>
-                <button class="filter-btn" onclick="setSubjectFilter('histoire', this)">Histoire-Géo</button>
-                <button class="filter-btn" onclick="setSubjectFilter('svt', this)">SVT</button>
-            </div>
-        </div>
+        </main>
 
-        <div class="cards-grid" id="cardsGrid">
-            <div class="empty-msg">Chargement des fichiers...</div>
-        </div>
+        <!-- Colonne de droite : Rattrapages & Actions rapides -->
+        aside>
+            <div class="card">
+                <h2>Prochains Rattrapages</h2>
+                <ul class="event-list">
+                    <li class="event-item">
+                        <div>
+                            <div class="event-title">Contrôle de Maths (Rattrapage)</div>
+                        </div>
+                        <span class="event-date">Lundi, 12h30</span>
+                    </li>
+                    <li class="event-item">
+                        <div>
+                            <div class="event-title">TP Physique-Chimie</div>
+                        </div>
+                        <span class="event-date">Jeudi, 16h00</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Outils rapides</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn">Lancer un Quiz interactif</button>
+                    <button class="btn btn-warning">Signaler un document manquant</button>
+                </div>
+            </div>
+        </aside>
+
     </div>
 
-    <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwNT6p7dOoC4_jvNiFM7QJA5UZKnw1WVX4SGq1msewJ0qpLjAxKi6JCo1kaEDoe7Q/exec';
+    <footer>
+        Plateforme sécurisée — Hébergée en local &bull; 5ème D
+    </footer>
 
-        let currentSpace = 'revision';
-        let currentSubject = 'all';
-        let allFiles = [];
-
-        async function loadSpaceFiles(space) {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = '<div class="empty-msg">Chargement des documents...</div>';
-
-            try {
-                const response = await fetch(`${API_URL}?space=${space}`);
-                const data = await response.json();
-
-                if (data.error || !Array.isArray(data) || data.length === 0) {
-                    grid.innerHTML = `<div class="empty-msg">Aucun fichier trouvé dans cet espace.</div>`;
-                    allFiles = [];
-                    return;
-                }
-
-                allFiles = data;
-                renderFiles();
-            } catch (err) {
-                grid.innerHTML = `<div class="empty-msg">Erreur de chargement des documents.</div>`;
-            }
-        }
-
-        function switchSpace(space) {
-            currentSpace = space;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${space}`).classList.add('active');
-            loadSpaceFiles(space);
-        }
-
-        function detectSubject(filename) {
-            const name = filename.toLowerCase();
-            if (name.includes('math')) return 'maths';
-            if (name.includes('franc') || name.includes('fr')) return 'francais';
-            if (name.includes('hist') || name.includes('geo')) return 'histoire';
-            if (name.includes('svt') || name.includes('phys')) return 'svt';
-            return 'autre';
-        }
-
-        function setSubjectFilter(subject, btn) {
-            currentSubject = subject;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderFiles();
-        }
-
-        function filterFiles() {
-            renderFiles();
-        }
-
-        function renderFiles() {
-            const grid = document.getElementById('cardsGrid');
-            const query = document.getElementById('searchInput').value.toLowerCase();
-
-            const filtered = allFiles.filter(file => {
-                const matchesSubject = (currentSubject === 'all') || (detectSubject(file.name) === currentSubject);
-                const matchesSearch = file.name.toLowerCase().includes(query);
-                return matchesSubject && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-msg">Aucun document trouvé.</div>';
-                return;
-            }
-
-            grid.innerHTML = '';
-            filtered.forEach(file => {
-                const subject = detectSubject(file.name);
-                const isPdf = file.name.toLowerCase().endsWith('.pdf');
-                const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
-
-                let previewHtml = '';
-                if (isPdf) {
-                    previewHtml = `<div class="preview-area"><iframe src="${file.download_url}"></iframe></div>`;
-                } else if (isImg) {
-                    previewHtml = `<div class="preview-area"><img src="${file.download_url}" alt="${file.name}"></div>`;
-                }
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div>
-                        <div class="card-header">
-                            <span class="badge badge-${subject}">${subject}</span>
-                        </div>
-                        <div class="card-title">${file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ")}</div>
-                    </div>
-                    ${previewHtml}
-                    <div class="card-actions">
-                        <a href="${file.download_url}" target="_blank" class="btn-view">Ouvrir</a>
-                        <a href="${file.download_url}" download class="btn-download">Télécharger</a>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        loadSpaceFiles('revision');
-    </script>
 </body>
-</html>
+    </html>
+    
